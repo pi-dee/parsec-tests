@@ -1,0 +1,11 @@
+*.pyc
+m5out
+.vscode
+results
+venv
+disk-image/parsec/parsec-image/parsec
+disk-image/packer
+disk-image/parsec-benchmark/
+disk-image/packer_cache
+gem5
+linux-stable/
