@@ -12,18 +12,21 @@ if tar -xzf $EXP.tar.gz; then
     echo "Success: $EXP.tar.gz extracted."
 else
     echo "Error: $EXP Extraction failed."
+    exit 1
 fi
 
 if gunzip parsec.img.gz; then
     echo "Success: parsec.img.gz extracted."
 else
     echo "Error: Extraction failed."
+    exit 1
 fi
 
 if tar -xzf vmlinux-4.19.83.tar.gz; then
     echo "Success: vmlinux-4.19.83.tar.gz extracted."
 else
     echo "Error: vmlinux-4.19.83.tar.gz Extraction failed."
+    exit 1
 fi
 
 echo "Unzipped all files."
