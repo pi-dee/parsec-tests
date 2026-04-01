@@ -41,29 +41,26 @@ M5OUT_DIR="m5out_${EXP}_${BENCHMARK}_${SIM_SIZE}"
 
 # 4. Run your exact gem5 command with parsec script
 ./build/X86/gem5.opt -d $M5OUT_DIR \
-    configs/deprecated/example/fs.py \
-    --cpu-type=TimingSimpleCPU \
-    --num-cpus=64 \
-    --num-dirs=64 \
-    --ruby \
-    --network=garnet \
-    --topology=ChipletMesh_XY \
-    --mesh-rows=4 \
-    --num-l2caches=64 \
-    --num-chips=4 \
-    --routing-algorithm=2 \
-    --chiplet-routing-algorithm=1 \
-    --buffers-per-data-vc=5 \
-    --interconnect-routing-algorithm=1 \
-    --buffers-per-ctrl-vc=5 \
-    --vcs-per-vnet=1 \
-    --num-bubbles=1 \
-    --deflection-threshold=10 \
-    --kernel=../vmlinux-4.19.83 \
-    --disk-image=../parsec.img \
-    --checkpoint-dir=boot_wget_ckpt \
-    --script=scripts/${BENCHMARK}/run_${BENCHMARK}_${SIM_SIZE}.rcS
-
+  configs/deprecated/example/fs.py \
+  --cpu-type=TimingSimpleCPU \
+  --num-cpus=64 \
+  --num-dirs=64 \
+  --ruby \
+  --network=garnet \
+  --topology=ChipletMesh_XY \
+  --mesh-rows=4 \
+  --num-l2caches=64 \
+  --num-chips=4 \
+  --routing-algorithm=2 \
+  --chiplet-routing-algorithm=1 \
+  --buffers-per-data-vc=5 \
+  --interconnect-routing-algorithm=1 \
+  --buffers-per-ctrl-vc=5 \
+  --vcs-per-vnet=1 \
+  --kernel=../vmlinux-4.19.83 \
+  --disk-image=../parsec.img \
+  --checkpoint-dir=boot_wget_ckpt \
+  --script=scripts/${BENCHMARK}/run_${BENCHMARK}_${SIM_SIZE}.rcS
 # ================================================================================================
 
 # tar and move the output folder to main CHTC working directory

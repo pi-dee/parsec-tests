@@ -8,4 +8,4 @@
 * The `adaptive-parsec.tar.gz` has the gem5 already compiled. And it also has the scripts folder with contents same as automation-scripts (can check file paths in .sh script for more clarity).
 * The vmlinux and parsec images are predownloaded as told in VM-CHECKPOINT-SETUP.md
 * **The adaptive uses checkpoints instead of full linux boot, in `sim.sh` it assumes the second cpt in `boot_wget_ckpt` is the correct checkpoint.** This can be replaced to `boot_golden_ckpt` in the `sim.sh` flags and then the flag `-r 1` would have to be passed instead of the current `-r 2`.
-
+* ChipletMesh should have the change how the DMA nodes are connected.
