@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# 1. Reset stats so we only measure the benchmark
+echo "Resetting stats"
+/sbin/m5 resetstats
+
+# 2. Run the benchmark (simdev is best for 64 cores)
+cd /home/gem5/parsec-benchmark
+#echo "Sourcing environment setup"
+#source env.sh
+echo "Running simulation"
+parsecmgmt -a run -p facesim -c gcc-hooks -n 64 -i simdev
+
+echo "Dumping stats"
+# 3. Dump stats when the ROI (Region of Interest) finishes
+/sbin/m5 dumpstats
+
+echo "Exiting simulation"
+# 4. Exit simulation
+#sbin/m5 exit
