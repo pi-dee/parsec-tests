@@ -1,0 +1,32 @@
+# test-adaptive.sub
+universe = docker
+docker_image = ghcr.io/gem5/ubuntu-24.04_all-dependencies
+
+log = logs/test-$(exp)_$(benchmark)_$(sim_size).log
+error = errors/test-$(exp)_$(benchmark)_$(sim_size).err
+output = outputs/test-$(exp)_$(benchmark)_$(sim_size).out
+
+executable = sim.sh
+arguments = $(exp) $(benchmark) $(sim_size)
+
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+
+# Tell HTCondor to pull the zipped folder from your staging directory using the OSDF protocol
+# UPDATE "yourNetID" TO YOUR ACTUAL CHTC USERNAME
+transfer_input_files = osdf:///chtc/staging/<user netid>/$(exp).tar.gz, osdf:///chtc/staging/<user netid>/parsec.img.gz, osdf:///chtc/staging/<user netid>/vmlinux-4.19.83.tar.gz
+transfer_output_files = m5out_$(exp)_$(benchmark)_$(sim_size).tar.gz
+
+# Require machines that are connected to the staging system
+requirements = (Target.HasCHTCStaging == true)
+
+request_cpus = 1
+request_memory = 16GB
+
+# You must request enough disk space for BOTH the zipped file AND the unzipped contents!
+request_disk = 50GB
+notify_user = <your email>
+notification = always
+#stream_output = true
+
+queue exp,benchmark,sim_size from runs.txt
