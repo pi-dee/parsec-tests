@@ -34,7 +34,6 @@ Step 1 — Start completely clean
 Step 2 — Create config from scratch
 `scons defconfig build/X86 build_opts/X86`
 
-### skip step 3 (MOESI_hammer) for now
 Step 3 — Use menuconfig once (yes, just once)
 `scons menuconfig build/X86`
 
@@ -521,8 +520,8 @@ m5 exit
 
 Before running the following command, check what checkpoints exist in the `boot_wget_ckpt` folder as the new checkpoint will be created in the same folder.
 
-Run with command from #7 but add following arg at end:
-**For dateline, also need to use --cpu-type=AtomicSimpleCPU and --restore-with-cpu=AtomicSimpleCPU**
+Run with command from #7 but **need to use --cpu-type=AtomicSimpleCPU and --restore-with-cpu=AtomicSimpleCPU** and add following arg at end:
+
 
 ```bash
   --script=gen_and_run.rcS
@@ -530,14 +529,16 @@ Run with command from #7 but add following arg at end:
 
 Then connect to telnet and run these in the VM interactively:
 
-**NOTE: After running `./boot.sh` Please look out for the "Checkpointing" message on the vm. Once you see that, wait for "Restoring: Fetching run script via m5 readfile..." message and then immediately ctrl+c the command from #7 (the ./build/X86/gem5.opt... command).**
+> **NOTE: After running `./boot.sh` Please look out for the "Checkpointing" message on the vm. Once you see that, wait for "Restoring: Fetching run script via m5 readfile..." message and then immediately ctrl+c the command from #7 (the ./build/X86/gem5.opt... command).**
 
 ```bash
 /sbin/m5 readfile > boot.sh && chmod +x boot.sh && cat ./boot.sh 
 ./boot.sh
 ```
 
-**Make sure to check the `boot_wget_ckpt` folder and make a new directory for the new checkpoint named `boot_auto_ckpt`. Then copy the `cpt.<>` checkpoint that you just created from `boot_wget_ckpt` to `boot_auto_ckpt`.**
+> **Make sure to check the `boot_wget_ckpt` folder and make a new directory for the new checkpoint named `boot_auto_ckpt`. Then copy the `cpt.<>` checkpoint that you just created from `boot_wget_ckpt` to `boot_auto_ckpt`.**
+
+---
 
 #### Automated after the one-time setup
 
@@ -600,7 +601,7 @@ Then run
 
 **NOTE: the `-r 1` is for restoring from the first checkpoint. If you have more than one checkpoint, you can change this value accordingly. Since we made sure in previous step that boot_auto_ckpt has only one checkpoint, we pass -r 1.**
 
-* For **dateline (Testing)**:
+* For **dateline**:
 
 ```bash
 ./build/X86/gem5.opt -d m5out_blackscholes_test \
@@ -621,6 +622,66 @@ Then run
  --buffers-per-data-vc=5 \
  --buffers-per-ctrl-vc=5 \
  --vcs-per-vnet=4 \
+ --garnet-deadlock-threshold=240000000 \
+ --kernel=../vmlinux-4.19.83 \
+ --disk-image=../parsec.img \
+ --checkpoint-dir=boot_auto_ckpt \
+ -r 1 \
+ --script=scripts/test/run_blackscholes_test.rcS
+```
+
+* For **spotsaver**:
+
+```bash
+./build/X86/gem5.opt -d m5out_blackscholes_test \
+ configs/deprecated/example/fs.py \
+ --cpu-type=TimingSimpleCPU \
+ --restore-with-cpu=TimingSimpleCPU \
+ --num-cpus=64 \
+ --num-dirs=64 \
+ --ruby \
+ --network=garnet \
+ --topology=ChipletMesh_XY \
+ --mesh-rows=4 \
+ --num-l2caches=64 \
+ --num-chips=4 \
+ --routing-algorithm=2 \
+ --chiplet-routing-algorithm=1 \
+ --interconnect-routing-algorithm=1 \
+ --buffers-per-data-vc=5 \
+ --buffers-per-ctrl-vc=5 \
+ --vcs-per-vnet=1 \
+ --garnet-deadlock-threshold=240000000 \
+ --kernel=../vmlinux-4.19.83 \
+ --disk-image=../parsec.img \
+ --checkpoint-dir=boot_auto_ckpt \
+ -r 1 \
+ --script=scripts/test/run_blackscholes_test.rcS
+```
+
+* For **poppingbubbles**:
+
+```bash
+./build/X86/gem5.opt -d m5out_blackscholes_test \
+ configs/deprecated/example/fs.py \
+ --cpu-type=TimingSimpleCPU \
+ --restore-with-cpu=TimingSimpleCPU \
+ --num-cpus=64 \
+ --num-dirs=64 \
+ --ruby \
+ --network=garnet \
+ --topology=ChipletMesh_XY \
+ --mesh-rows=4 \
+ --num-l2caches=64 \
+ --num-chips=4 \
+ --routing-algorithm=2 \
+ --chiplet-routing-algorithm=1 \
+ --interconnect-routing-algorithm=1 \
+ --buffers-per-data-vc=5 \
+ --buffers-per-ctrl-vc=5 \
+ --vcs-per-vnet=1 \
+ --num-bubbles=1 \
+ --deflection-threshold=10 \
  --garnet-deadlock-threshold=240000000 \
  --kernel=../vmlinux-4.19.83 \
  --disk-image=../parsec.img \

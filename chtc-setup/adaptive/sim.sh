@@ -5,10 +5,6 @@ EXP=$1
 BENCHMARK=$2
 SIM_SIZE=$3
 
-# NEW: Define an array of the synthetic traffic patterns you want to test.
-# Standard gem5 Garnet patterns include: uniform_random, tornado, bit_complement,
-# bit_reverse, shuffle, transpose, neighbor.
-
 # ================================================================================================
 echo "Unzipping all files."
 # 1. Unzip the massive gem5 folder that HTCondor pulled from staging
@@ -40,7 +36,7 @@ echo "Unzipped all file."
 echo "$(ll)"
 
 # 3. Navigate into your unzipped folder
-cd adaptive
+cd $EXP
 
 echo "Starting parsec simulation for: $EXP, Benchmark [$BENCHMARK], sim size [$SIM_SIZE]"
 # NEW: Create a unique output file name for this specific pattern and rate
@@ -67,8 +63,8 @@ M5OUT_DIR="m5out_${EXP}_${BENCHMARK}_${SIM_SIZE}"
   --garnet-deadlock-threshold=240000000 \
   --kernel=../vmlinux-4.19.83 \
   --disk-image=../parsec.img \
-  --checkpoint-dir=boot_wget_ckpt \
-  -r 2 \
+  --checkpoint-dir=boot_auto_ckpt \
+  -r 1 \
   --script=scripts/${SIM_SIZE}/run_${BENCHMARK}_${SIM_SIZE}.rcS
 
 # ================================================================================================
