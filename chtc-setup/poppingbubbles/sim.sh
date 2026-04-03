@@ -68,7 +68,7 @@ M5OUT_DIR="m5out_${EXP}_${BENCHMARK}_${SIM_SIZE}"
   --disk-image=../parsec.img \
   --checkpoint-dir=boot_auto_ckpt \
   -r 1 \
-  --script=scripts/${BENCHMARK}/run_${BENCHMARK}_${SIM_SIZE}.rcS
+  --script=scripts/${SIM_SIZE}/run_${BENCHMARK}_${SIM_SIZE}.rcS
 
 # ================================================================================================
 
