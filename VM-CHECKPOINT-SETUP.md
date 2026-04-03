@@ -73,14 +73,46 @@ For ***adaptive***:
  --mesh-rows=4 \
  --num-l2caches=64 \
  --num-chips=4 \
+ --routing-algorithm=2 \
+ --chiplet-routing-algorithm=1 \
+ --interconnect-routing-algorithm=1 \
  --buffers-per-data-vc=5 \
+ --vcs-per-vnet=6 \
+ --garnet-deadlock-threshold=240000000 \
  --kernel=../vmlinux-4.19.83 \
  --disk-image=../parsec.img \
  --checkpoint-dir=boot_wget_ckpt \
  --checkpoint-at-end
 ```
 
-### For poppingbubbles, spotsaver and dateline, checkpoint workflow does not work. Go to last section.
+For ***dateline (MOESI_hammer needed)***:
+
+```bash
+./build/X86/gem5.opt -d m5out_wget_image \
+ configs/deprecated/example/fs.py \
+ --cpu-type=AtomicSimpleCPU \
+ --num-cpus=64 \
+ --num-dirs=64 \
+ --ruby \
+ --network=garnet \
+ --topology=TorusMesh_XY \
+ --mesh-rows=4 \
+ --num-l2caches=64 \
+ --num-chips=4 \
+ --routing-algorithm=2 \
+ --chiplet-routing-algorithm=0 \
+ --interconnect-routing-algorithm=0 \
+ --buffers-per-data-vc=5 \
+ --buffers-per-ctrl-vc=5 \
+ --vcs-per-vnet=4 \
+ --garnet-deadlock-threshold=240000000 \
+ --kernel=../vmlinux-4.19.83 \
+ --disk-image=../parsec.img \
+ --checkpoint-dir=boot_wget_ckpt \
+ --checkpoint-at-end
+```
+
+### For poppingbubbles, spotsaver, checkpoint workflow does not work. Go to last section.
 
 For ***poppingbubbles***:
 
@@ -96,11 +128,15 @@ For ***poppingbubbles***:
  --mesh-rows=4 \
  --num-l2caches=64 \
  --num-chips=4 \
+ --routing-algorithm=2 \
+ --chiplet-routing-algorithm=1 \
+ --interconnect-routing-algorithm=1 \
  --buffers-per-data-vc=5 \
  --buffers-per-ctrl-vc=5 \
  --vcs-per-vnet=1 \
  --num-bubbles=1 \
  --deflection-threshold=10 \
+ --garnet-deadlock-threshold=240000000 \
  --kernel=../vmlinux-4.19.83 \
  --disk-image=../parsec.img \
  --checkpoint-dir=boot_wget_ckpt \
@@ -121,32 +157,13 @@ For ***spotsaver***:
  --mesh-rows=4 \
  --num-l2caches=64 \
  --num-chips=4 \
+ --routing-algorithm=2 \
+ --chiplet-routing-algorithm=1 \
+ --interconnect-routing-algorithm=1 \
  --buffers-per-data-vc=5 \
  --buffers-per-ctrl-vc=5 \
  --vcs-per-vnet=1 \
- --kernel=../vmlinux-4.19.83 \
- --disk-image=../parsec.img \
- --checkpoint-dir=boot_wget_ckpt \
- --checkpoint-at-end
-```
-
-For ***dateline***:
-
-```bash
-./build/X86/gem5.opt -d m5out_wget_image \
- configs/deprecated/example/fs.py \
- --cpu-type=AtomicSimpleCPU \
- --num-cpus=64 \
- --num-dirs=64 \
- --ruby \
- --network=garnet \
- --topology=TorusMesh_XY \
- --mesh-rows=4 \
- --num-l2caches=64 \
- --num-chips=4 \
- --buffers-per-data-vc=5 \
- --buffers-per-ctrl-vc=5 \
- --vcs-per-vnet=4 \
+ --garnet-deadlock-threshold=240000000 \
  --kernel=../vmlinux-4.19.83 \
  --disk-image=../parsec.img \
  --checkpoint-dir=boot_wget_ckpt \
@@ -237,8 +254,6 @@ Once verified, inside the guest:
 
 ## Step 7: Restore with Full Configuration
 
-### Run your actual experiment:
-
 * For ***adaptive***:
 
 ```bash
@@ -256,16 +271,45 @@ Once verified, inside the guest:
  --num-chips=4 \
  --routing-algorithm=2 \
  --chiplet-routing-algorithm=1 \
- --buffers-per-data-vc=5 \
  --interconnect-routing-algorithm=1 \
+ --buffers-per-data-vc=5 \
+ --vcs-per-vnet=6 \
+ --garnet-deadlock-threshold=240000000 \
  --kernel=../vmlinux-4.19.83 \
  --disk-image=../parsec.img \
  --checkpoint-dir=boot_wget_ckpt \
- -r 1 \
- --script=run_blackscholes_test.rcS
+ -r 1
 ```
 
-### For poppingbubbles, spotsaver and dateline, checkpoint workflow does not work. Go to last section.
+For ***dateline (MOESI_hammer needed)***:
+
+```bash
+./build/X86/gem5.opt -d m5out_wget_image \
+ configs/deprecated/example/fs.py \
+ --cpu-type=TimingSimpleCPU \
+ --restore-with-cpu=TimingSimpleCPU \
+ --num-cpus=64 \
+ --num-dirs=64 \
+ --ruby \
+ --network=garnet \
+ --topology=TorusMesh_XY \
+ --mesh-rows=4 \
+ --num-l2caches=64 \
+ --num-chips=4 \
+ --routing-algorithm=2 \
+ --chiplet-routing-algorithm=0 \
+ --interconnect-routing-algorithm=0 \
+ --buffers-per-data-vc=5 \
+ --buffers-per-ctrl-vc=5 \
+ --vcs-per-vnet=4 \
+ --garnet-deadlock-threshold=240000000 \
+ --kernel=../vmlinux-4.19.83 \
+ --disk-image=../parsec.img \
+ --checkpoint-dir=boot_wget_ckpt \
+ -r 1
+```
+
+### For poppingbubbles, spotsaver, checkpoint workflow does not work. Go to last section.
 
 * For ***poppingbubbles***:
 
@@ -284,17 +328,17 @@ Once verified, inside the guest:
  --num-chips=4 \
  --routing-algorithm=2 \
  --chiplet-routing-algorithm=1 \
- --buffers-per-data-vc=5 \
  --interconnect-routing-algorithm=1 \
+ --buffers-per-data-vc=5 \
  --buffers-per-ctrl-vc=5 \
  --vcs-per-vnet=1 \
  --num-bubbles=1 \
  --deflection-threshold=10 \
+ --garnet-deadlock-threshold=240000000 \
  --kernel=../vmlinux-4.19.83 \
  --disk-image=../parsec.img \
  --checkpoint-dir=boot_wget_ckpt \
- -r 1 \
- --script=run_blackscholes_test.rcS
+ -r 1
 ```
 
 * For ***spotsaver***:
@@ -314,15 +358,15 @@ Once verified, inside the guest:
  --num-chips=4 \
  --routing-algorithm=2 \
  --chiplet-routing-algorithm=1 \
- --buffers-per-data-vc=5 \
  --interconnect-routing-algorithm=1 \
+ --buffers-per-data-vc=5 \
  --buffers-per-ctrl-vc=5 \
  --vcs-per-vnet=1 \
+ --garnet-deadlock-threshold=240000000 \
  --kernel=../vmlinux-4.19.83 \
  --disk-image=../parsec.img \
  --checkpoint-dir=boot_wget_ckpt \
- -r 1 \
- --script=run_blackscholes_test.rcS
+ -r 1
 ```
 
 ---
@@ -475,23 +519,25 @@ echo "Starting Benchmark..."
 m5 exit
 ```
 
-Run with command from #7 but change the checkpoint-dir and add following arg at end:
+Before running the following command, check what checkpoints exist in the `boot_wget_ckpt` folder as the new checkpoint will be created in the same folder.
+
+Run with command from #7 but add following arg at end:
+**For dateline, also need to use --cpu-type=AtomicSimpleCPU and --restore-with-cpu=AtomicSimpleCPU**
 
 ```bash
-  --checkpoint-dir=boot_auto_ckpt \
   --script=gen_and_run.rcS
 ```
 
 Then connect to telnet and run these in the VM interactively:
 
-**NOTE: After running `./boot.sh` Please look out for the "Checkpointing" message on the vm. Once you see that, wait for "Restoring: Fetching run script via m5 readfile..." message and then immediately ctrl+c the command from #7 (the ./build... command).**
+**NOTE: After running `./boot.sh` Please look out for the "Checkpointing" message on the vm. Once you see that, wait for "Restoring: Fetching run script via m5 readfile..." message and then immediately ctrl+c the command from #7 (the ./build/X86/gem5.opt... command).**
 
 ```bash
 /sbin/m5 readfile > boot.sh && chmod +x boot.sh && cat ./boot.sh 
 ./boot.sh
 ```
 
-**Make sure to check the `boot_golden_ckpt` folder should only have one `cpt.<>` checkpoint.**
+**Make sure to check the `boot_wget_ckpt` folder and make a new directory for the new checkpoint named `boot_auto_ckpt`. Then copy the `cpt.<>` checkpoint that you just created from `boot_wget_ckpt` to `boot_auto_ckpt`.**
 
 #### Automated after the one-time setup
 
@@ -524,6 +570,8 @@ echo "Exiting simulation"
 
 Then run
 
+* For **adaptive**:
+
 ```bash
 ./build/X86/gem5.opt -d m5out_blackscholes_simmedium \
  configs/deprecated/example/fs.py \
@@ -539,16 +587,47 @@ Then run
  --num-chips=4 \
  --routing-algorithm=2 \
  --chiplet-routing-algorithm=1 \
- --buffers-per-data-vc=5 \
  --interconnect-routing-algorithm=1 \
+ --buffers-per-data-vc=5 \
+ --vcs-per-vnet=6 \
+ --garnet-deadlock-threshold=240000000 \
  --kernel=../vmlinux-4.19.83 \
  --disk-image=../parsec.img \
  --checkpoint-dir=boot_auto_ckpt \
  -r 1 \
- --script=run_blackscholes_medium.rcS
+ --script=scripts/medium/run_blackscholes_medium.rcS
 ```
 
 **NOTE: the `-r 1` is for restoring from the first checkpoint. If you have more than one checkpoint, you can change this value accordingly. Since we made sure in previous step that boot_auto_ckpt has only one checkpoint, we pass -r 1.**
+
+* For **dateline (Testing)**:
+
+```bash
+./build/X86/gem5.opt -d m5out_blackscholes_test \
+ configs/deprecated/example/fs.py \
+ --cpu-type=TimingSimpleCPU \
+ --restore-with-cpu=TimingSimpleCPU \
+ --num-cpus=64 \
+ --num-dirs=64 \
+ --ruby \
+ --network=garnet \
+ --topology=TorusMesh_XY \
+ --mesh-rows=4 \
+ --num-l2caches=64 \
+ --num-chips=4 \
+ --routing-algorithm=2 \
+ --chiplet-routing-algorithm=0 \
+ --interconnect-routing-algorithm=0 \
+ --buffers-per-data-vc=5 \
+ --buffers-per-ctrl-vc=5 \
+ --vcs-per-vnet=4 \
+ --garnet-deadlock-threshold=240000000 \
+ --kernel=../vmlinux-4.19.83 \
+ --disk-image=../parsec.img \
+ --checkpoint-dir=boot_auto_ckpt \
+ -r 1 \
+ --script=scripts/test/run_blackscholes_test.rcS
+```
 
 ---
 
@@ -577,6 +656,10 @@ Then run
 * Use `telnet localhost 3456`
 
 ---
+
+### stats.txt not getting generated
+
+* Running `m5 dumpstats` after the simulation has exited is the only way to dump stats. **Check if you are running it after the simulation has exited.**
 
 ### No checkpoint appears
 
@@ -608,6 +691,13 @@ This workflow enables:
 * Boot once
 * Reuse checkpoint
 * Run multiple network experiments efficiently
+
+---
+
+## For Debugging
+
+* You can add `--debug-flags=RubyNetwork` after the `-d m5out` flag. **The placement of this flag is important.**
+* Since the debug output is very large, you can if you know the issue tick range, you can use the `--debug-start` and `--debug-end` flags to limit the debug output. For example, if you know the issue is between tick 1000000 and 2000000, you can add `--debug-start=1000000 --debug-end=2000000` to the command. **The placement of this flag is also important and should go after the `-d m5out` flag.**
 
 ---
 
@@ -695,80 +785,83 @@ echo "Exiting simulation"
 
 ```bash
 ./build/X86/gem5.opt -d m5out_direct_boot \
-  configs/deprecated/example/fs.py \
-  --cpu-type=TimingSimpleCPU \
-  --num-cpus=64 \
-  --num-dirs=64 \
-  --ruby \
-  --network=garnet \
-  --topology=ChipletMesh_XY \
-  --mesh-rows=4 \
-  --num-l2caches=64 \
-  --num-chips=4 \
-  --routing-algorithm=2 \
-  --chiplet-routing-algorithm=1 \
-  --buffers-per-data-vc=5 \
-  --interconnect-routing-algorithm=1 \
-  --buffers-per-ctrl-vc=5 \
-  --vcs-per-vnet=1 \
-  --num-bubbles=1 \
-  --deflection-threshold=10 \
-  --kernel=../vmlinux-4.19.83 \
-  --disk-image=../parsec.img \
-  --checkpoint-dir=boot_wget_ckpt \
-  --script=scripts/test/run_blackscholes_test.rcS
+ configs/deprecated/example/fs.py \
+ --cpu-type=TimingSimpleCPU \
+ --num-cpus=64 \
+ --num-dirs=64 \
+ --ruby \
+ --network=garnet \
+ --topology=ChipletMesh_XY \
+ --mesh-rows=4 \
+ --num-l2caches=64 \
+ --num-chips=4 \
+ --routing-algorithm=2 \
+ --chiplet-routing-algorithm=1 \
+ --interconnect-routing-algorithm=1 \
+ --buffers-per-data-vc=5 \
+ --buffers-per-ctrl-vc=5 \
+ --vcs-per-vnet=1 \
+ --num-bubbles=1 \
+ --deflection-threshold=10 \
+ --garnet-deadlock-threshold=240000000 \
+ --kernel=../vmlinux-4.19.83 \
+ --disk-image=../parsec.img \
+ --checkpoint-dir=boot_wget_ckpt \
+ --script=scripts/test/run_blackscholes_test.rcS
 ```
 
 * For ***spotsaver***
 
 ```bash
 ./build/X86/gem5.opt -d m5out_direct_boot \
-  configs/deprecated/example/fs.py \
-  --cpu-type=TimingSimpleCPU \
-  --num-cpus=64 \
-  --num-dirs=64 \
-  --ruby \
-  --network=garnet \
-  --topology=ChipletMesh_XY \
-  --mesh-rows=4 \
-  --num-l2caches=64 \
-  --num-chips=4 \
-  --routing-algorithm=2 \
-  --chiplet-routing-algorithm=1 \
-  --buffers-per-data-vc=5 \
-  --interconnect-routing-algorithm=1 \
-  --buffers-per-ctrl-vc=5 \
-  --vcs-per-vnet=1 \
-  --kernel=../vmlinux-4.19.83 \
-  --disk-image=../parsec.img \
-  --checkpoint-dir=boot_wget_ckpt \
-  --script=scripts/test/run_blackscholes_test.rcS
+ configs/deprecated/example/fs.py \
+ --cpu-type=TimingSimpleCPU \
+ --num-cpus=64 \
+ --num-dirs=64 \
+ --ruby \
+ --network=garnet \
+ --topology=ChipletMesh_XY \
+ --mesh-rows=4 \
+ --num-l2caches=64 \
+ --num-chips=4 \
+ --routing-algorithm=2 \
+ --chiplet-routing-algorithm=1 \
+ --interconnect-routing-algorithm=1 \
+ --buffers-per-data-vc=5 \
+ --buffers-per-ctrl-vc=5 \
+ --vcs-per-vnet=1 \
+ --garnet-deadlock-threshold=240000000 \
+ --kernel=../vmlinux-4.19.83 \
+ --disk-image=../parsec.img \
+ --checkpoint-dir=boot_wget_ckpt \
+ --script=scripts/test/run_blackscholes_test.rcS
 ```
 
 * For ***dateline***
 
 ```bash
 ./build/X86/gem5.opt -d m5out_direct_boot \
-  configs/deprecated/example/fs.py \
-  --cpu-type=TimingSimpleCPU \
-  --num-cpus=64 \
-  --num-dirs=64 \
-  --ruby \
-  --network=garnet \
-  --topology=TorusMesh_XY \
-  --mesh-rows=4 \
-  --num-l2caches=64 \
-  --num-chips=4 \
-  --routing-algorithm=2 \
-  --chiplet-routing-algorithm=0 \
-  --buffers-per-data-vc=5 \
-  --interconnect-routing-algorithm=0 \
-  --buffers-per-ctrl-vc=5 \
-  --vcs-per-vnet=4 \
-  --kernel=../vmlinux-4.19.83 \
-  --disk-image=../parsec.img \
-  --checkpoint-dir=boot_wget_ckpt \
-  --script=scripts/test/run_blackscholes_test.rcS
+ configs/deprecated/example/fs.py \
+ --cpu-type=TimingSimpleCPU \
+ --num-cpus=64 \
+ --num-dirs=64 \
+ --ruby \
+ --network=garnet \
+ --topology=TorusMesh_XY \
+ --mesh-rows=4 \
+ --num-l2caches=64 \
+ --num-chips=4 \
+ --routing-algorithm=2 \
+ --chiplet-routing-algorithm=0 \
+ --interconnect-routing-algorithm=0 \
+ --buffers-per-data-vc=5 \
+ --buffers-per-ctrl-vc=5 \
+ --vcs-per-vnet=4 \
+ --garnet-deadlock-threshold=240000000 \
+ --kernel=../vmlinux-4.19.83 \
+ --disk-image=../parsec.img \
+ --checkpoint-dir=boot_wget_ckpt \
+ --script=scripts/test/run_blackscholes_test.rcS
 ```
 
 ---
