@@ -58,6 +58,7 @@ M5OUT_DIR="m5out_${EXP}_${BENCHMARK}_${SIM_SIZE}"
   --routing-algorithm=2 \
   --chiplet-routing-algorithm=1 \
   --buffers-per-data-vc=5 \
+  --buffers-per-ctrl-vc=5 \
   --vcs-per-vnet=6 \
   --interconnect-routing-algorithm=1 \
   --garnet-deadlock-threshold=240000000 \

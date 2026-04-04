@@ -8,8 +8,8 @@ SIM_SIZE=$3
 # ================================================================================================
 echo "Unzipping all files."
 # 1. Unzip the massive gem5 folder that HTCondor pulled from staging
-if tar -xzf $EXP.tar.gz; then
-    echo "Success: $EXP.tar.gz extracted."
+if tar -xzf ${EXP}.tar.gz; then
+    echo "Success: ${EXP}.tar.gz extracted."
 else
     echo "Error: $EXP Extraction failed."
     exit 1
@@ -46,7 +46,6 @@ M5OUT_DIR="m5out_${EXP}_${BENCHMARK}_${SIM_SIZE}"
 ./build/X86/gem5.opt -d $M5OUT_DIR \
   configs/deprecated/example/fs.py \
   --cpu-type=TimingSimpleCPU \
-  --restore-with-cpu=TimingSimpleCPU \
   --num-cpus=64 \
   --num-dirs=64 \
   --ruby \
@@ -66,8 +65,7 @@ M5OUT_DIR="m5out_${EXP}_${BENCHMARK}_${SIM_SIZE}"
   --garnet-deadlock-threshold=240000000 \
   --kernel=../vmlinux-4.19.83 \
   --disk-image=../parsec.img \
-  --checkpoint-dir=boot_auto_ckpt \
-  -r 1 \
+  --checkpoint-dir=boot_wget_ckpt \
   --script=scripts/${SIM_SIZE}/run_${BENCHMARK}_${SIM_SIZE}.rcS
 
 # ================================================================================================
