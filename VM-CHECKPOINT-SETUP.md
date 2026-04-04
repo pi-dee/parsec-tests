@@ -801,7 +801,6 @@ Step 1 — Start completely clean
 Step 2 — Create config from scratch
 `scons defconfig build/X86 build_opts/X86`
 
-### skip step 3 (MOESI_hammer) for now
 Step 3 — Use menuconfig once (yes, just once)
 `scons menuconfig build/X86`
 
