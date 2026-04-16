@@ -78,6 +78,7 @@ For ***adaptive***:
  --chiplet-routing-algorithm=1 \
  --interconnect-routing-algorithm=1 \
  --buffers-per-data-vc=5 \
+ --buffers-per-ctrl-vc=5 \
  --vcs-per-vnet=6 \
  --garnet-deadlock-threshold=240000000 \
  --kernel=../vmlinux-4.19.83 \
