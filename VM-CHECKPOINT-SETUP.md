@@ -276,7 +276,7 @@ Once verified, inside the guest:
  --interconnect-routing-algorithm=1 \
  --buffers-per-data-vc=5 \
  --buffers-per-ctrl-vc=5 \
- --vcs-per-vnet=6 \
+ --vcs-per-vnet=16 \
  --garnet-deadlock-threshold=240000000 \
  --kernel=../vmlinux-4.19.83 \
  --disk-image=../parsec.img \
@@ -528,7 +528,7 @@ Run with command from #7 but **need to use --cpu-type=AtomicSimpleCPU and --rest
 
 
 ```bash
-  --script=gen_and_run.rcS
+  --script=../gen_and_run.rcS
 ```
 
 Then connect to telnet and run these in the VM interactively:
